@@ -215,8 +215,9 @@ def install_conda():
 
     debug.info(1, "Creating conda setup...");
 
-    from openram import CONDA_INSTALLER
-    subprocess.call(CONDA_INSTALLER)
+    if not ( os.path.isdir(os.environ["CONDA_HOME"]) ):
+        from openram import CONDA_INSTALLER
+        subprocess.call(CONDA_INSTALLER)
 
 
 def setup_bitcell():

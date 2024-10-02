@@ -24,21 +24,24 @@ __path__.insert(0, OPENRAM_HOME)
 
 
 # Find the conda installer script
-if os.path.exists(OPENRAM_HOME + "/install_conda.sh"):
-    CONDA_INSTALLER = OPENRAM_HOME + "/install_conda.sh"
-    CONDA_HOME = OPENRAM_HOME + "/miniconda"
-elif os.path.exists(OPENRAM_HOME + "/../install_conda.sh"):
-    CONDA_INSTALLER = OPENRAM_HOME + "/../install_conda.sh"
-    CONDA_HOME = os.path.abspath(OPENRAM_HOME + "/../miniconda")
-# Override CONDA_HOME if it's set as an environment variable
-if "CONDA_HOME" in os.environ.keys():
-    CONDA_HOME = os.environ["CONDA_HOME"]
-# Add CONDA_HOME to environment variables just in case
-try:
-    os.environ["CONDA_HOME"] = CONDA_HOME
-except:
-    from openram import debug
-    debug.warning("Couldn't find conda setup directory.")
+if os.path.isdir(os.environ["CONDA_HOME"]):
+    print("Conda already installed")
+else:
+    if os.path.exists(OPENRAM_HOME + "/install_conda.sh"):
+        CONDA_INSTALLER = OPENRAM_HOME + "/install_conda.sh"
+        CONDA_HOME = OPENRAM_HOME + "/miniconda"
+    elif os.path.exists(OPENRAM_HOME + "/../install_conda.sh"):
+        CONDA_INSTALLER = OPENRAM_HOME + "/../install_conda.sh"
+        CONDA_HOME = os.path.abspath(OPENRAM_HOME + "/../miniconda")
+    # Override CONDA_HOME if it's set as an environment variable
+    if "CONDA_HOME" in os.environ.keys():
+        CONDA_HOME = os.environ["CONDA_HOME"]
+    # Add CONDA_HOME to environment variables just in case
+    try:
+        os.environ["CONDA_HOME"] = CONDA_HOME
+    except:
+        from openram import debug
+        debug.warning("Couldn't find conda setup directory.")
 
 
 # Import everything in globals.py
